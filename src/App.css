@@ -1,0 +1,14 @@
+.phonebook {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 0;
+    
+
+}
+.contacts {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 0;
+}
