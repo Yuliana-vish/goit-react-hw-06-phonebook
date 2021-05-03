@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
 const ButtonForm = () => {
   const classes = useStyles();
   return (
-    <button className={classes.button} value="Add contact" type="submit">
+    <button className={classes.button} type="submit">
       Add contact
     </button>
   );

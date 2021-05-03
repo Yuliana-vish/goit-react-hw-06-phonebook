@@ -1,11 +1,12 @@
 import styles from './Form.module.css';
 
-const FormNumber = ({ number, handleChange }) => {
+const FormNumber = ({ number, handleChange, }) => {
   return (
     <label className={styles.label}>
       Number
       <input
-        type="text"
+        
+        type="tel"
         value={number}
         name="number"
         onChange={handleChange}

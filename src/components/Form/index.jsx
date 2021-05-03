@@ -1,49 +1,76 @@
-//import { Component } from 'react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { onAddContact } from '../../redux/phonebook/phonebook-actions';
-// import { v4 as uuidv4 } from 'uuid';
-//import PropTypes from 'prop-types';
+import { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import FormButton from './FormButton';
 import FormName from './FormName';
-import FormNumber from './FormNumber';
+import FormNumber from './FormNumber'
+import phonebookActions from '../../redux/phonebook/phonebook-actions';
 import styles from './Form.module.css';
 
 
-const Form = () => {
-  const dispatch = useDispatch();
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-    
-// class Form extends Component {
-//     static propTypes = {
-//        onAddContact: PropTypes.func.isRequired,
-//     };
-
-//     state = {
-//         name: '',
-//         number: '',
-//     };
-
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    dispatch(onAddContact(name, number));
-    setName('');
-    setNumber('');
+class Form extends Component {
+  static propTypes = {
+    addContact: PropTypes.func.isRequired,
   };
 
-  const handleChangeName = event => setName(event.target.value);
-  const handleChangeNumber = event => setName(event.target.value);
+  state = {
+    name: '',
+    number: '',
+  };
 
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const contact = {
+      id: uuidv4(),
+      name: this.state.name,
+      number: this.state.number,
+    };
+    this.props.addContact(contact);
+    this.setState({
+      name: '',
+      number: '',
+    });
+  };
+  
+  render() {
+    const {
+      name,
+      number,
+      } = this.state;
     return (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <FormName handleChange={handleChangeName} name={name} />
-            <FormNumber handleChange={handleChangeNumber} number={number} />
-            <FormButton />
-          </form>
-        );
-    }
+      <>
+       <form className={styles.form} onSubmit={this.handleSubmit}>
+        <FormName
+          handleChange={this.handleChange}
+          name={name}
+  
+        />
+        <FormNumber
+          handleChange={this.handleChange}
+          number={number}
+          
+        />
+        <FormButton />
+        </form>
+        </>
+    );
+  };
+}
 
 
-export default Form;
+const mapStateToProps = state => ({
+  contacts: state.contacts,
+});
+
+const mapDispatchToProps = {
+  addContact: phonebookActions.onAddContact,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

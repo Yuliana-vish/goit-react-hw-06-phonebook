@@ -1,21 +1,19 @@
 import { useDispatch } from 'react-redux';
-import { onFilterContact } from '../../redux/phonebook/phonebook-actions';
 import styles from './Filter.module.css';
+import phonebookActions from '../../redux/phonebook/phonebook-actions';
 
 
 const Filter = () => {
     const dispatch = useDispatch();
     const handleChangeFilter = event =>
-      dispatch(onFilterContact(event.target.value));
+      dispatch(phonebookActions.filterContacts(event.target.value));
 
     return (
       <label className={styles.label}>
-        {/* {' '} */}
-        Find contacts by name
+       Find contacts by name
         <input
           className={styles.input}
-          onChange={handleChangeFilter}
-         
+          onChange={handleChangeFilter}         
         />
       </label>
     );
